@@ -5,7 +5,7 @@ pwd
 
 echo "Files:"
 ls -ls ..
-ls -l ../modules-cache
+ls -l ../project-modules
 
 
 GOVERSION=`go version`
