@@ -1,4 +1,8 @@
 #!/bin/sh
+
+echo "Files:"
+ls -ls
+
 GOVERSION=`go version`
 echo "Go version: $GOVERSION"
 
