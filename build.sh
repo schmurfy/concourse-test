@@ -1,6 +1,9 @@
 #!/bin/sh
 
-echo "pwd"
+echo "Environment:"
+export
+
+echo "Current Path:"
 pwd
 
 echo "Files:"
