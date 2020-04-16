@@ -3,5 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Printf("it works !")
+	a := 1
+	fmt.Printf("a is %d\n", a)
+	fmt.Printf("it works !\n")
 }
