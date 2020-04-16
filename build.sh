@@ -1,3 +1,3 @@
 #!/bin/sh
 echo "Building app..."
-go build -o test .
+go build -o test main.go
