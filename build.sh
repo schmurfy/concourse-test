@@ -1,15 +1,18 @@
 #!/bin/sh
 
-echo "Environment:"
-export
+BASEPATH=`pwd`
 
-echo "Current Path:"
-pwd
+# echo "Environment:"
+# export
 
-echo "Files:"
-ls -ls ..
-ls -l ../project-modules
+# echo "Current Path:"
+# pwd
 
+# echo "Files:"
+# ls -ls ..
+find $BASEPATH/project-modules -maxdepth 4
+
+export GOPATH=$BASEPATH/project-modules/go
 
 GOVERSION=`go version`
 echo "Go version: $GOVERSION"
