@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc"
 
-	"github.com/golang/protobuf/ptypes/empty"
+	"github.com/schmurfy/concourse-test/gateway/config"
 	pb "github.com/schmurfy/concourse-test/gateway/generated_pb/service"
 )
 
@@ -15,8 +16,13 @@ var (
 )
 
 func main() {
+	cfg, err := config.Load()
+	if err != nil {
+		panic(err)
+	}
+
 	conn, err := grpc.Dial(
-		"127.0.0.1:8000",
+		cfg.ServiceAddr,
 		grpc.WithInsecure(),
 	)
 	if err != nil {
@@ -26,7 +32,7 @@ func main() {
 	defer conn.Close()
 
 	http.HandleFunc("/addreses", func(w http.ResponseWriter, r *http.Request) {
-		ret, err := serviceClient.GetAddress(r.Context(), &empty.Empty{})
+		ret, err := serviceClient.GetAddresses(r.Context(), &empty.Empty{})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -41,7 +47,7 @@ func main() {
 		w.Write(data)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(cfg.ListenAddr, nil)
 }
 
 // func HelloServer(w http.ResponseWriter, r *http.Request) {

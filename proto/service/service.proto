@@ -11,11 +11,11 @@ option go_package = "pb";
 
 
 service Service {
-  rpc GetAddress(google.protobuf.Empty) returns (GetAddressResponse);
+  rpc GetAddresses(google.protobuf.Empty) returns (GetAddressesResponse);
   rpc IncrementRedis(IncrementRedisRequest) returns (google.protobuf.Empty);
 }
 
-message GetAddressResponse {
+message GetAddressesResponse {
   repeated string ipv4s = 1;
 }
 

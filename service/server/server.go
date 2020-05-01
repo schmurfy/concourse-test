@@ -21,8 +21,8 @@ type service struct {
 	redis  *redis.Client
 }
 
-func (s *service) GetAddress(context.Context, *empty.Empty) (*pb.GetAddressResponse, error) {
-	ret := &pb.GetAddressResponse{}
+func (s *service) GetAddresses(context.Context, *empty.Empty) (*pb.GetAddressesResponse, error) {
+	ret := &pb.GetAddressesResponse{}
 
 	ifaces, err := net.Interfaces()
 	if err != nil {
@@ -81,7 +81,7 @@ func (s *service) IncrementRedis(ctx context.Context, req *pb.IncrementRedisRequ
 	return &empty.Empty{}, nil
 }
 
-func Start(logger *zap.Logger) {
+func Start(logger *zap.Logger, redis *redis.Client) {
 	grpcServer := grpc.NewServer()
 
 	pb.RegisterServiceServer(grpcServer, &service{logger: logger})
