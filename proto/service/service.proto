@@ -1,0 +1,25 @@
+syntax="proto3";
+
+import "google/protobuf/empty.proto";
+
+package service;
+
+// import "gogoproto/gogo.proto";
+
+option go_package = "pb";
+
+
+
+service Service {
+  rpc GetAddress(google.protobuf.Empty) returns (GetAddressResponse);
+  rpc IncrementRedis(IncrementRedisRequest) returns (google.protobuf.Empty);
+}
+
+message GetAddressResponse {
+  repeated string ipv4s = 1;
+}
+
+
+message IncrementRedisRequest {
+  string key = 1;
+}
