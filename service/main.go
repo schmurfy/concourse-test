@@ -27,5 +27,10 @@ func main() {
 		Addr: cfg.RedisAddr,
 	})
 
+	logger.Info("service started",
+		zap.String("address", cfg.ListenAddr),
+		zap.String("redis", cfg.RedisAddr),
+	)
+
 	server.Start(logger, client)
 }

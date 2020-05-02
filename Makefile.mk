@@ -7,6 +7,7 @@ PROTODIRS 	:= $(shell ls $(MODELS_PATH))
 PROTOS_IN   := $(shell find $(MODELS_PATH) -name *.proto)
 PROTOS_OUT  := $(patsubst $(MODELS_PATH)/%.proto,generated_pb/%.pb.go,$(PROTOS_IN))
 
+SERVICE 		:= $(shell basename $$PWD)
 
 debug:
 	@echo Paths:
@@ -34,3 +35,18 @@ generated_pb/%.pb.go: $(MODELS_PATH)/%.proto
 
 
 proto: $(PROTOS_OUT)
+
+${SERVICE}: proto
+	@echo Building ${SERVICE}...
+	@go build -o ${SERVICE} main.go
+	@echo Success
+
+${SERVICE}-linux: proto
+	mkdir -p  build
+	GOARCH=amd64 GOOS=linux go build -o build/${SERVICE} main.go
+
+image: ${SERVICE}-linux
+	docker build -t schmurfy/concourse-test-${SERVICE}:latest -f Dockerfile ./build
+
+push-image: image
+	docker push schmurfy/concourse-test-${SERVICE}:latest

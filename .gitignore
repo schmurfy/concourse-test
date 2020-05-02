@@ -1,2 +1,4 @@
 service/service
 gateway/gateway
+generated_pb/
+build/

@@ -2,9 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
+	"github.com/blendle/zapdriver"
 	"github.com/golang/protobuf/ptypes/empty"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 
 	"github.com/schmurfy/concourse-test/gateway/config"
@@ -21,6 +24,12 @@ func main() {
 		panic(err)
 	}
 
+	logger, err := zapdriver.NewDevelopment(zap.AddStacktrace(zap.ErrorLevel))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer logger.Sync()
+
 	conn, err := grpc.Dial(
 		cfg.ServiceAddr,
 		grpc.WithInsecure(),
@@ -31,7 +40,7 @@ func main() {
 	serviceClient = pb.NewServiceClient(conn)
 	defer conn.Close()
 
-	http.HandleFunc("/addreses", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/addrs", func(w http.ResponseWriter, r *http.Request) {
 		ret, err := serviceClient.GetAddresses(r.Context(), &empty.Empty{})
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -46,6 +55,22 @@ func main() {
 
 		w.Write(data)
 	})
+
+	http.HandleFunc("/redis", func(w http.ResponseWriter, r *http.Request) {
+		_, err := serviceClient.IncrementRedis(r.Context(), &pb.IncrementRedisRequest{
+			Key: "test",
+		})
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+	})
+
+	logger.Info("gateway started",
+		zap.String("address", cfg.ListenAddr),
+		zap.String("service", cfg.ServiceAddr),
+	)
 
 	http.ListenAndServe(cfg.ListenAddr, nil)
 }

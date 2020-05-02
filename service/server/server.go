@@ -84,7 +84,12 @@ func (s *service) IncrementRedis(ctx context.Context, req *pb.IncrementRedisRequ
 func Start(logger *zap.Logger, redis *redis.Client) {
 	grpcServer := grpc.NewServer()
 
-	pb.RegisterServiceServer(grpcServer, &service{logger: logger})
+	svc := &service{
+		logger: logger,
+		redis:  redis,
+	}
+
+	pb.RegisterServiceServer(grpcServer, svc)
 	reflection.Register(grpcServer)
 
 	srv := health.NewServer()
