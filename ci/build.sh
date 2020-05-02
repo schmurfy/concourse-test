@@ -3,4 +3,4 @@
 apk add --no-cache make
 
 cd $1
-make
+make $1-linux
