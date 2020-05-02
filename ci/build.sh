@@ -1,5 +1,7 @@
 #!/bin/sh
 
+apk add --no-cache make jq protoc
+
 export GOPATH="`pwd`/../project-modules/go"
 export PATH="$GOPATH/bin:$PATH"
 
