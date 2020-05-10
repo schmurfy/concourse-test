@@ -22,8 +22,8 @@ job "concourse-test" {
       }
       
       resources {
-        # cpu    = 100 # MHz
-        # memory = 128 # MB
+        cpu    = 50 # MHz
+        memory = 20 # MB
         network {
           # mbits = 10
           port "http" {}
@@ -68,8 +68,8 @@ job "concourse-test" {
       }
       
       resources {
-        # cpu    = 100 # MHz
-        # memory = 128 # MB
+        cpu    = 50 # MHz
+        memory = 20 # MB
         network {
           # mbits = 10
           port "grpc" {}
