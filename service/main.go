@@ -7,6 +7,8 @@ import (
 	"github.com/go-redis/redis/v7"
 	"go.uber.org/zap"
 
+	_ "github.com/schmurfy/test-lib2"
+
 	"github.com/schmurfy/concourse-test/service/config"
 	"github.com/schmurfy/concourse-test/service/server"
 )

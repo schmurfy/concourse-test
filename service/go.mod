@@ -9,6 +9,7 @@ require (
 	github.com/golang/protobuf v1.3.3
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/schmurfy/concourse-test/proto v0.0.0-00010101000000-000000000000
+	github.com/schmurfy/test-lib2 v0.0.0-20200521105608-1e472016f9bf
 	go.uber.org/zap v1.15.0
 	google.golang.org/grpc v1.29.1
 )
